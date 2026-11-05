@@ -1,0 +1,15 @@
+{
+  "name": "saldo",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix angular-app start",
+    "build": "npm --prefix angular-app run build",
+    "test": "npm --prefix angular-app test -- --watch=false"
+  },
+  "dependencies": {
+    "firebase": "^13.2.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.34.2"
+  }
+}

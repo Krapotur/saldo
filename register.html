@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#182b49" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Saldo" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/saldo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/saldo.svg" />
+    <meta name="description" content="Регистрация в Saldo — личной бухгалтерии для контроля финансов." />
+    <title>Регистрация — Saldo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="auth.css" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.warn));
+      }
+    </script>
+    <script type="module" src="register.js"></script>
+    <script src="pwa.js" defer></script>
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-showcase" aria-labelledby="authShowcaseTitle">
+        <a class="auth-brand" href="index.html" aria-label="Saldo, перейти к приложению">
+          <span class="auth-brand-mark">S</span>
+          <span>saldo</span>
+        </a>
+
+        <div class="auth-showcase-content">
+          <p class="auth-kicker">ВАШ ФИНАНСОВЫЙ РИТМ</p>
+          <h1 id="authShowcaseTitle">Деньги —<br /><em>под контролем.</em></h1>
+          <p>Следите за балансом, планируйте цели и сохраняйте важные решения в одном спокойном пространстве.</p>
+        </div>
+
+        <ul class="auth-benefits" aria-label="Преимущества Saldo">
+          <li><span>01</span>Доходы и расходы в одном месте</li>
+          <li><span>02</span>Цели и личные сбережения</li>
+          <li><span>03</span>Защита данных с PIN-кодом</li>
+        </ul>
+      </section>
+
+      <section class="auth-form-area" aria-labelledby="registrationTitle">
+        <div class="auth-form-wrap">
+          <p class="auth-kicker" id="authModeKicker">НОВЫЙ АККАУНТ</p>
+          <h2 id="registrationTitle">Создайте аккаунт</h2>
+          <p class="auth-intro" id="authModeIntro">Начните вести личные финансы в Saldo.</p>
+
+          <form id="registrationForm" class="registration-form" novalidate>
+            <div class="auth-field">
+              <label for="registrationName">Как к вам обращаться</label>
+              <input id="registrationName" name="displayName" type="text" autocomplete="name" maxlength="48" placeholder="Ваше имя" aria-describedby="registrationNameError" required />
+              <p class="auth-field-error" id="registrationNameError"></p>
+            </div>
+
+            <div class="auth-field">
+              <label for="registrationLogin">Логин</label>
+              <input id="registrationLogin" name="login" type="text" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9._-]{3,24}" autocapitalize="none" spellcheck="false" placeholder="например, anna_24" aria-describedby="registrationLoginHint registrationLoginError" required />
+              <span class="auth-field-hint" id="registrationLoginHint">3–24 символа: латинские буквы, цифры, точка, дефис или подчёркивание.</span>
+              <p class="auth-field-error" id="registrationLoginError"></p>
+            </div>
+
+            <div class="auth-field">
+              <label for="registrationPassword">Пароль</label>
+              <div class="auth-password-control">
+                <input id="registrationPassword" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="Не менее 8 символов" aria-describedby="registrationPasswordHint registrationPasswordError" required />
+                <button class="password-toggle" id="toggleRegistrationPassword" type="button" aria-label="Показать пароль" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                </button>
+              </div>
+              <span class="auth-field-hint" id="registrationPasswordHint">Используйте не менее 8 символов.</span>
+              <p class="auth-field-error" id="registrationPasswordError"></p>
+            </div>
+
+            <div class="auth-field">
+              <label for="registrationPasswordConfirm">Повторите пароль</label>
+              <div class="auth-password-control">
+                <input id="registrationPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" placeholder="Повторите пароль" aria-describedby="registrationPasswordConfirmError" required />
+                <button class="password-toggle" id="toggleRegistrationPasswordConfirm" type="button" aria-label="Показать пароль" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                </button>
+              </div>
+              <p class="auth-field-error" id="registrationPasswordConfirmError"></p>
+            </div>
+
+            <p class="auth-form-status" id="registrationStatus" role="status" aria-live="polite"></p>
+            <button class="auth-submit" id="registrationSubmit" type="submit">Создать аккаунт <span>→</span></button>
+          </form>
+
+          <p class="auth-switch-mode"><span id="authSwitchPrompt">Уже есть аккаунт?</span> <button id="authSwitchButton" type="button">Войти</button></p>
+
+          <p class="auth-footer-note">Аккаунт защищён Firebase Authentication. Используйте запоминаемый пароль.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
