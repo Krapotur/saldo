@@ -2,23 +2,39 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#182b49" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="apple-mobile-web-app-title" content="Saldo" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icons/saldo.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/saldo.svg" />
-    <meta name="description" content="Saldo — личная бухгалтерия для контроля доходов и расходов." />
+    <meta
+      name="description"
+      content="Saldo — личная бухгалтерия для контроля доходов и расходов."
+    />
     <title>Saldo — личная бухгалтерия</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
     <script>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.warn));
+        window.addEventListener("load", () =>
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch(console.warn),
+        );
       }
     </script>
     <script type="module" src="firebase-bootstrap.js"></script>
@@ -40,27 +56,55 @@
 
         <nav class="nav-list">
           <a class="nav-item active" href="#overview" aria-label="Домой">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"
+              />
+            </svg>
             <span class="nav-label">Домой</span>
           </a>
-          <a class="nav-item income-nav-item" href="#income" aria-label="Доходы">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m0 0-5 5m5-5 5 5"/><path d="M5 19h14"/></svg>
+          <a
+            class="nav-item income-nav-item"
+            href="#income"
+            aria-label="Доходы"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 19V5m0 0-5 5m5-5 5 5" />
+              <path d="M5 19h14" />
+            </svg>
             <span class="nav-label">Доходы</span>
           </a>
           <a class="nav-item" href="#operations" aria-label="Операции">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h9"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 7h14M5 12h14M5 17h9" />
+            </svg>
             <span class="nav-label">Операции</span>
           </a>
           <a class="nav-item" href="#analytics" aria-label="Аналитика">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3-3 3 2 5-6"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 19V5m0 14h16M8 15l3-3 3 2 5-6" />
+            </svg>
             <span class="nav-label">Аналитика</span>
           </a>
           <a class="nav-item" href="#goals" aria-label="Цели">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l3 2"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="7" />
+              <path d="M12 8v4l3 2" />
+            </svg>
             <span class="nav-label">Цели</span>
           </a>
-          <button class="sidebar-settings-button" id="mobileSettingsButton" type="button" aria-label="Настройки защиты">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-3v-.08A1.7 1.7 0 0 0 10.66 18.36a1.7 1.7 0 0 0-1.88.34l-.06.06L6.6 16.64l.06-.06A1.7 1.7 0 0 0 7 14.7a1.7 1.7 0 0 0-1.56-1.04H5.3v-3h.08A1.7 1.7 0 0 0 6.94 9.62 1.7 1.7 0 0 0 6.6 7.74l-.06-.06 2.12-2.12.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 11.64 4.4v-.08h3v.08a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l-.06-.06 2.12 2.12-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.04H21v3h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+          <button
+            class="sidebar-settings-button"
+            id="mobileSettingsButton"
+            type="button"
+            aria-label="Настройки защиты"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-3v-.08A1.7 1.7 0 0 0 10.66 18.36a1.7 1.7 0 0 0-1.88.34l-.06.06L6.6 16.64l.06-.06A1.7 1.7 0 0 0 7 14.7a1.7 1.7 0 0 0-1.56-1.04H5.3v-3h.08A1.7 1.7 0 0 0 6.94 9.62 1.7 1.7 0 0 0 6.6 7.74l-.06-.06 2.12-2.12.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 11.64 4.4v-.08h3v.08a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l-.06-.06 2.12 2.12-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.04H21v3h-.08A1.7 1.7 0 0 0 19.4 15Z"
+              />
+            </svg>
             <span>Настройки</span>
           </button>
         </nav>
@@ -68,11 +112,23 @@
         <div class="sidebar-bottom">
           <div class="sidebar-profile" aria-label="Профиль">
             <span class="avatar" id="profileAvatar">А</span>
-            <span class="sidebar-profile-name" id="sidebarProfileName">Анна Петрова</span>
+            <span class="sidebar-profile-name" id="sidebarProfileName"
+              >Анна Петрова</span
+            >
             <span class="profile-status" aria-hidden="true"></span>
           </div>
-          <button class="sidebar-settings-button" id="openSettingsModal" type="button" aria-label="Настройки защиты">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-3v-.08A1.7 1.7 0 0 0 10.66 18.36a1.7 1.7 0 0 0-1.88.34l-.06.06L6.6 16.64l.06-.06A1.7 1.7 0 0 0 7 14.7a1.7 1.7 0 0 0-1.56-1.04H5.3v-3h.08A1.7 1.7 0 0 0 6.94 9.62 1.7 1.7 0 0 0 6.6 7.74l-.06-.06 2.12-2.12.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 11.64 4.4v-.08h3v.08a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.04H21v3h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+          <button
+            class="sidebar-settings-button"
+            id="openSettingsModal"
+            type="button"
+            aria-label="Настройки защиты"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-3v-.08A1.7 1.7 0 0 0 10.66 18.36a1.7 1.7 0 0 0-1.88.34l-.06.06L6.6 16.64l.06-.06A1.7 1.7 0 0 0 7 14.7a1.7 1.7 0 0 0-1.56-1.04H5.3v-3h.08A1.7 1.7 0 0 0 6.94 9.62 1.7 1.7 0 0 0 6.6 7.74l-.06-.06 2.12-2.12.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 11.64 4.4v-.08h3v.08a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.04H21v3h-.08A1.7 1.7 0 0 0 19.4 15Z"
+              />
+            </svg>
             <span>Настройки</span>
           </button>
         </div>
@@ -85,13 +141,32 @@
             <span class="today-label" id="currentDate">Сегодня</span>
           </div>
           <div class="topbar-actions">
-            <button class="mobile-profile-button" id="mobileProfileButton" type="button" aria-label="Профиль">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.5-3.4 3.2-5.5 7-5.5s6.5 2.1 7 5.5"/></svg>
+            <button
+              class="mobile-profile-button"
+              id="mobileProfileButton"
+              type="button"
+              aria-label="Профиль"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M5 20c.5-3.4 3.2-5.5 7-5.5s6.5 2.1 7 5.5" />
+              </svg>
             </button>
-            <button class="icon-button" id="lockButton" type="button" aria-label="Заблокировать приложение" title="Заблокировать">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <button
+              class="icon-button"
+              id="lockButton"
+              type="button"
+              aria-label="Заблокировать приложение"
+              title="Заблокировать"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg>
             </button>
-            <button class="add-button" id="openModal" type="button"><span>+</span> Новая операция</button>
+            <button class="add-button" id="openModal" type="button">
+              <span>+</span> Новая операция
+            </button>
           </div>
         </header>
 
@@ -103,66 +178,152 @@
           <div class="cycle-chip">
             <i></i>
             <span class="cycle-label">Месяц</span>
-            <button class="month-picker-trigger" id="openMonthModal" type="button" aria-haspopup="dialog" aria-controls="monthModalBackdrop">
-              <span id="selectedMonthLabel">Выбрать месяц</span><span aria-hidden="true"></span>
+            <button
+              class="month-picker-trigger"
+              id="openMonthModal"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="monthModalBackdrop"
+            >
+              <span id="selectedMonthLabel">Выбрать месяц</span
+              ><span aria-hidden="true"></span>
             </button>
             <input id="monthSelect" type="hidden" />
           </div>
         </section>
 
         <section class="snapshot-grid" aria-label="Финансовая сводка">
-          <article class="balance-card" id="balanceWidget" role="button" tabindex="0" aria-label="Показать сбережения">
-            <div class="balance-map map-one"></div><div class="balance-map map-two"></div>
+          <article
+            class="balance-card"
+            id="balanceWidget"
+            role="button"
+            tabindex="0"
+            aria-label="Показать сбережения"
+          >
+            <div class="balance-map map-one"></div>
+            <div class="balance-map map-two"></div>
             <div class="balance-head">
               <span id="balanceLabel">Свободный баланс</span>
               <div class="balance-actions">
-                <button class="balance-action" id="openSavingsModal" type="button" hidden>Управлять</button>
-                <button class="small-icon" id="balanceVisibility" aria-label="Скрыть баланс">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                <button
+                  class="balance-action"
+                  id="openSavingsModal"
+                  type="button"
+                  hidden
+                >
+                  Управлять
+                </button>
+                <button
+                  class="small-icon"
+                  id="balanceVisibility"
+                  aria-label="Скрыть баланс"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                    />
+                    <circle cx="12" cy="12" r="2.5" />
+                  </svg>
                 </button>
               </div>
             </div>
             <strong class="balance-value" id="balanceValue">0 ₽</strong>
-            <div class="balance-footer"><span class="trend-pill" id="balancePill">—</span><span id="balanceDescription">к предыдущему месяцу</span></div>
-            <div class="savings-widget-list" id="savingsWidgetList" aria-live="polite"></div>
-            <div class="balance-scale" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="balance-footer">
+              <span class="trend-pill" id="balancePill">—</span
+              ><span id="balanceDescription">к предыдущему месяцу</span>
+            </div>
+            <div
+              class="savings-widget-list"
+              id="savingsWidgetList"
+              aria-live="polite"
+            ></div>
+            <div class="balance-scale" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+              ><i></i>
+            </div>
             <span class="balance-code" id="balanceCode">BALANCE / 01</span>
-            <span class="balance-click-hint" aria-hidden="true">Нажмите, чтобы посмотреть сбережения <b>↗</b></span>
+            <span class="balance-click-hint" aria-hidden="true"
+              >Нажмите, чтобы посмотреть сбережения <b>↗</b></span
+            >
           </article>
 
-          <article class="debt-card" id="debtsWidget" role="button" tabindex="0" aria-label="Переключать обязательства">
-            <svg class="debt-art" viewBox="0 0 120 100" fill="none" aria-hidden="true"><path d="M18 24h58a10 10 0 0 1 10 10v7"/><path d="m75 35 11 11 11-11M102 55H48a10 10 0 0 0-10 10v8"/><path d="m49 66-11 11-11-11"/><rect x="20" y="12" width="42" height="24" rx="5" transform="rotate(-9 20 12)"/><circle cx="41" cy="24" r="6"/><path d="M51 83h45"/></svg>
-            <div class="metric-top"><span style="font-size: 18px;">Кредиты</span><span class="metric-code">DEBT / 04</span></div>
+          <article
+            class="debt-card"
+            id="debtsWidget"
+            role="button"
+            tabindex="0"
+            aria-label="Переключать обязательства"
+          >
+            <svg
+              class="debt-art"
+              viewBox="0 0 120 100"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M18 24h58a10 10 0 0 1 10 10v7" />
+              <path d="m75 35 11 11 11-11M102 55H48a10 10 0 0 0-10 10v8" />
+              <path d="m49 66-11 11-11-11" />
+              <rect
+                x="20"
+                y="12"
+                width="42"
+                height="24"
+                rx="5"
+                transform="rotate(-9 20 12)"
+              />
+              <circle cx="41" cy="24" r="6" />
+              <path d="M51 83h45" />
+            </svg>
+            <div class="metric-top">
+              <span style="font-size: 18px">Кредиты</span
+              ><span class="metric-code">DEBT / 04</span>
+            </div>
             <div class="debt-card-face" id="debtsWidgetFace">
               <span class="metric-label" id="debtsLabel">Общий долг</span>
               <strong id="debtsTotal">0 ₽</strong>
               <p id="debtsDetails"><b id="debtsCount">0 обязательств</b></p>
             </div>
-            <button class="text-button debt-manage-button" id="openDebtsModal" type="button">Управлять</button>
-            <span class="debt-click-hint">Нажмите, чтобы листать обязательства</span>
+            <button
+              class="text-button debt-manage-button"
+              id="openDebtsModal"
+              type="button"
+            >
+              Управлять
+            </button>
+            <span class="debt-click-hint"
+              >Нажмите, чтобы листать обязательства</span
+            >
           </article>
 
           <article class="stat-card income-card" id="income">
-            <div class="metric-top"><span class="metric-icon">↗</span><span class="metric-code">IN / 01</span></div>
+            <div class="metric-top">
+              <span class="metric-icon">↗</span
+              ><span class="metric-code">IN / 01</span>
+            </div>
             <span class="metric-label">Поступило</span>
             <strong id="incomeValue">0 ₽</strong>
             <p><b id="incomeChange">—</b> к предыдущему месяцу</p>
           </article>
 
           <article class="stat-card expense-card">
-            <div class="metric-top"><span class="metric-icon">↘</span><span class="metric-code">OUT / 02</span></div>
+            <div class="metric-top">
+              <span class="metric-icon">↘</span
+              ><span class="metric-code">OUT / 02</span>
+            </div>
             <span class="metric-label">Потрачено</span>
             <strong id="expenseValue">0 ₽</strong>
             <p><b id="expenseChange">—</b> к предыдущему месяцу</p>
           </article>
 
           <article class="stat-card daily-expense-card">
-            <div class="metric-top"><span class="metric-icon">≈</span><span class="metric-code">DAY / 03</span></div>
+            <div class="metric-top">
+              <span class="metric-icon">≈</span
+              ><span class="metric-code">DAY / 03</span>
+            </div>
             <span class="metric-label">Средний расход в день</span>
             <strong id="dailyExpenseValue">0 ₽</strong>
             <p id="dailyExpensePeriod">за выбранный месяц</p>
           </article>
-
         </section>
 
         <section class="analytics-grid" id="analytics">
@@ -173,47 +334,127 @@
                 <h2>Движение средств</h2>
               </div>
               <div class="chart-controls">
-                <div class="legend" aria-label="Легенда диаграммы"><span><i class="legend-income"></i>Поступления</span><span><i class="legend-expense"></i>Расходы</span></div>
-                <select id="periodSelect" aria-label="Период диаграммы"><option value="week">7 дней</option><option value="month">Месяц</option></select>
+                <div class="legend" aria-label="Легенда диаграммы">
+                  <span><i class="legend-income"></i>Поступления</span
+                  ><span><i class="legend-expense"></i>Расходы</span>
+                </div>
+                <select id="periodSelect" aria-label="Период диаграммы">
+                  <option value="week">7 дней</option>
+                  <option value="month">Месяц</option>
+                </select>
               </div>
             </div>
-            <div class="bar-chart" id="barChart" role="img" aria-label="Столбчатая диаграмма доходов и расходов"></div>
-            <div class="expense-scale" id="expenseScale" aria-label="Шкала категорий расходов"></div>
-            <div class="chart-note"><span>Пиковый день</span><strong id="chartPeakDay">—</strong><span class="chart-note-line"></span><span>Цвета показывают категории расходов</span></div>
+            <div
+              class="bar-chart"
+              id="barChart"
+              role="img"
+              aria-label="Столбчатая диаграмма доходов и расходов"
+            ></div>
+            <div
+              class="expense-scale"
+              id="expenseScale"
+              aria-label="Шкала категорий расходов"
+            ></div>
+            <div class="chart-note">
+              <span>Пиковый день</span><strong id="chartPeakDay">—</strong
+              ><span class="chart-note-line"></span
+              ><span>Цвета показывают категории расходов</span>
+            </div>
           </article>
 
-          <article class="panel category-panel" id="categoryPanel" role="button" tabindex="0" aria-pressed="false" aria-label="Показать поступления">
+          <article
+            class="panel category-panel"
+            id="categoryPanel"
+            role="button"
+            tabindex="0"
+            aria-pressed="false"
+            aria-label="Показать поступления"
+          >
             <div class="panel-header">
-              <div><span class="section-index" id="categoryIndex">02 / СРЕЗ</span><h2 id="categoryTitle">Куда уходят деньги</h2></div>
-              <span class="widget-action" id="categoryHint">Показать доходы ↗</span>
+              <div>
+                <span class="section-index" id="categoryIndex">02 / СРЕЗ</span>
+                <h2 id="categoryTitle">Куда уходят деньги</h2>
+              </div>
+              <span class="widget-action" id="categoryHint"
+                >Показать доходы ↗</span
+              >
             </div>
             <div class="expenses-view">
               <div class="donut-layout">
-                <div class="donut" id="donutChart" role="img" aria-label="Круговая диаграмма категорий расходов"><div class="donut-center"><strong id="categoryTotal">0 ₽</strong><span>за месяц</span></div></div>
+                <div
+                  class="donut"
+                  id="donutChart"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Открыть все категории расходов"
+                >
+                  <div class="donut-center">
+                    <strong id="categoryTotal">0 ₽</strong><span>за месяц</span>
+                  </div>
+                </div>
                 <ul class="category-list" id="categoryList"></ul>
               </div>
-              <p class="category-footer">Три главные категории формируют основную часть расходов.</p>
+              <p class="category-footer">
+                Три главные категории формируют основную часть расходов.
+              </p>
             </div>
             <div class="income-view" aria-live="polite">
-              <div class="income-panel-total"><span>Всего доходов</span><strong id="categoryIncomeTotal">0 ₽</strong></div>
+              <div class="income-panel-total">
+                <span>Всего доходов</span
+                ><strong id="categoryIncomeTotal">0 ₽</strong>
+              </div>
               <ul class="income-panel-list" id="categoryIncomeList"></ul>
             </div>
           </article>
         </section>
 
-        <section class="expense-plan-panel panel" id="expensePlanPanel" aria-labelledby="expensePlanTitle">
+        <section
+          class="expense-plan-panel panel"
+          id="expensePlanPanel"
+          aria-labelledby="expensePlanTitle"
+        >
           <div class="panel-header expense-plan-header">
-            <div><span class="section-index">03 / ПЛАН</span><h2 id="expensePlanTitle">Расходы</h2></div>
-            <span class="expense-plan-hint" id="expensePlanHint">План на выбранный месяц</span>
+            <div>
+              <span class="section-index">03 / ПЛАН</span>
+              <h2 id="expensePlanTitle">Расходы</h2>
+            </div>
+            <span class="expense-plan-hint" id="expensePlanHint"
+              >План на выбранный месяц</span
+            >
           </div>
           <div class="expense-plan-overview" aria-label="Сводка расходов">
-            <div><span>Предполагаемые</span><strong id="expensePlanExpected">0 ₽</strong><i class="expense-plan-bar expected"><b id="expensePlanExpectedBar"></b></i></div>
-            <div><span>Фактические</span><strong id="expensePlanActual">0 ₽</strong><i class="expense-plan-bar actual"><b id="expensePlanActualBar"></b></i></div>
-            <div><span>Разница</span><strong id="expensePlanDifference">0 ₽</strong><i class="expense-plan-bar difference" aria-label="Разница между предполагаемыми и фактическими расходами"><b id="expensePlanDifferenceBar"></b></i></div>
+            <div>
+              <span>Предполагаемые</span
+              ><strong id="expensePlanExpected">0 ₽</strong
+              ><i class="expense-plan-bar expected"
+                ><b id="expensePlanExpectedBar"></b
+              ></i>
+            </div>
+            <div>
+              <span>Фактические</span><strong id="expensePlanActual">0 ₽</strong
+              ><i class="expense-plan-bar actual"
+                ><b id="expensePlanActualBar"></b
+              ></i>
+            </div>
+            <div>
+              <span>Разница</span><strong id="expensePlanDifference">0 ₽</strong
+              ><i
+                class="expense-plan-bar difference"
+                aria-label="Разница между предполагаемыми и фактическими расходами"
+                ><b id="expensePlanDifferenceBar"></b
+              ></i>
+            </div>
           </div>
           <div class="expense-plan-table-wrap">
             <table class="expense-plan-table">
-              <thead><tr><th>Категория</th><th>Предполагаемые</th><th>Фактические</th><th>Разница</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Категория</th>
+                  <th>Предполагаемые</th>
+                  <th>Фактические</th>
+                  <th>Разница</th>
+                </tr>
+              </thead>
               <tbody id="expensePlanRows"></tbody>
             </table>
           </div>
@@ -222,177 +463,612 @@
         <section class="operations-grid">
           <article class="panel transactions-panel" id="operations">
             <div class="panel-header transaction-header">
-              <div><span class="section-index">04 / ЖУРНАЛ</span><h2>Последние операции</h2></div>
+              <div>
+                <span class="section-index">04 / ЖУРНАЛ</span>
+                <h2>Последние операции</h2>
+              </div>
               <div class="transaction-actions">
-                <div class="filter-group" role="group" aria-label="Фильтр операций"><button class="filter-button active" data-filter="all">Все</button><button class="filter-button" data-filter="income">Доходы</button><button class="filter-button" data-filter="expense">Расходы</button></div>
-                <button class="text-button" id="showAllButton">Открыть журнал ↗</button>
+                <div
+                  class="filter-group"
+                  role="group"
+                  aria-label="Фильтр операций"
+                >
+                  <button class="filter-button active" data-filter="all">
+                    Все</button
+                  ><button class="filter-button" data-filter="income">
+                    Доходы</button
+                  ><button class="filter-button" data-filter="expense">
+                    Расходы
+                  </button>
+                </div>
+                <button class="text-button" id="showAllButton">
+                  Открыть журнал ↗
+                </button>
               </div>
             </div>
             <div class="transaction-list" id="transactionList"></div>
           </article>
 
           <article class="savings-card" id="goals">
-            <div class="savings-orbit orbit-a"></div><div class="savings-orbit orbit-b"></div>
-            <div class="savings-top"><span class="section-index">05 / ЦЕЛЬ</span><button class="goal-settings" id="openGoalModal" type="button">Управлять ↗</button></div>
+            <div class="savings-orbit orbit-a"></div>
+            <div class="savings-orbit orbit-b"></div>
+            <div class="savings-top">
+              <span class="section-index">05 / ЦЕЛЬ</span
+              ><button class="goal-settings" id="openGoalModal" type="button">
+                Управлять ↗
+              </button>
+            </div>
             <h2 id="goalTitle">Италия,<br />встречай.</h2>
-            <div class="goal-amounts"><strong id="goalCurrent">86 500 ₽</strong><span>из <span id="goalTarget">120 000 ₽</span></span></div>
+            <div class="goal-amounts">
+              <strong id="goalCurrent">86 500 ₽</strong
+              ><span>из <span id="goalTarget">120 000 ₽</span></span>
+            </div>
             <div class="progress-track"><i id="goalProgress"></i></div>
             <p>Осталось <b id="goalRemaining">33 500 ₽</b></p>
-            <div class="goal-summary-list" id="goalSummaryList" aria-label="Список целей"></div>
-            <button class="goal-button" id="addToGoal" type="button">Добавить цель</button>
+            <div
+              class="goal-summary-list"
+              id="goalSummaryList"
+              aria-label="Список целей"
+            ></div>
+            <button class="goal-button" id="addToGoal" type="button">
+              Добавить цель
+            </button>
           </article>
         </section>
-
       </main>
     </div>
-    <button class="mobile-add-operation" id="mobileAddOperation" type="button" aria-label="Добавить операцию">+</button>
+    <button
+      class="mobile-add-operation"
+      id="mobileAddOperation"
+      type="button"
+      aria-label="Добавить операцию"
+    >
+      +
+    </button>
 
     <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <button class="modal-close" id="closeModal" aria-label="Закрыть">×</button>
+      <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <button class="modal-close" id="closeModal" aria-label="Закрыть">
+          ×
+        </button>
         <p class="eyebrow">НОВАЯ ЗАПИСЬ</p>
         <h2 id="modalTitle">Добавить операцию</h2>
         <form id="transactionForm">
-          <div class="type-switch" role="group" aria-label="Тип операции"><button type="button" class="type-option active" data-type="expense">Расход</button><button type="button" class="type-option" data-type="income">Доход</button></div>
-          <label>Название<input id="transactionName" name="name" type="text" placeholder="Например, продукты" required maxlength="40" /></label>
-          <div class="form-row"><label>Сумма<input id="transactionAmount" name="amount" type="number" min="1" step="1" placeholder="0" required /></label><label>Категория<select id="transactionCategory" name="category"></select></label></div>
-          <button class="manage-categories-button" id="openCategoryModal" type="button">Настроить категории <span>↗</span></button>
-          <label>Дата<input id="transactionDate" name="date" type="date" required /></label>
-          <button class="submit-button" id="transactionSubmit" type="submit">Сохранить операцию</button>
+          <div class="type-switch" role="group" aria-label="Тип операции">
+            <button
+              type="button"
+              class="type-option active"
+              data-type="expense"
+            >
+              Расход</button
+            ><button type="button" class="type-option" data-type="income">
+              Доход
+            </button>
+          </div>
+          <label
+            >Название<input
+              id="transactionName"
+              name="name"
+              type="text"
+              placeholder="Например, продукты"
+              required
+              maxlength="40"
+          /></label>
+          <div class="form-row">
+            <label
+              >Сумма<input
+                id="transactionAmount"
+                name="amount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="0"
+                required /></label
+            ><label
+              >Категория<select
+                id="transactionCategory"
+                name="category"
+              ></select
+            ></label>
+          </div>
+          <button
+            class="manage-categories-button"
+            id="openCategoryModal"
+            type="button"
+          >
+            Настроить категории <span>↗</span>
+          </button>
+          <label
+            >Дата<input id="transactionDate" name="date" type="date" required
+          /></label>
+          <button class="submit-button" id="transactionSubmit" type="submit">
+            Сохранить операцию
+          </button>
         </form>
       </section>
     </div>
     <div class="modal-backdrop" id="categoryModalBackdrop" aria-hidden="true">
-      <section class="modal category-manager-modal" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
-        <button class="modal-close" id="closeCategoryModal" aria-label="Закрыть">×</button>
+      <section
+        class="modal category-manager-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="categoryModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeCategoryModal"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">СПРАВОЧНИК</p>
         <h2 id="categoryModalTitle">Категории</h2>
-        <div class="type-switch category-type-switch" role="group" aria-label="Тип категорий">
-          <button type="button" class="category-type-option active" data-category-type="expense">Расходы</button>
-          <button type="button" class="category-type-option" data-category-type="income">Доходы</button>
+        <div
+          class="type-switch category-type-switch"
+          role="group"
+          aria-label="Тип категорий"
+        >
+          <button
+            type="button"
+            class="category-type-option active"
+            data-category-type="expense"
+          >
+            Расходы
+          </button>
+          <button
+            type="button"
+            class="category-type-option"
+            data-category-type="income"
+          >
+            Доходы
+          </button>
         </div>
-        <p class="category-manager-help">Переименование категории обновит все связанные операции.</p>
+        <p class="category-manager-help">
+          Переименование категории обновит все связанные операции.
+        </p>
         <div class="category-editor-list" id="categoryEditorList"></div>
         <div class="category-add-row">
-          <input id="newCategoryName" type="text" maxlength="32" placeholder="Новая категория" aria-label="Название новой категории" />
-          <button id="addCategoryButton" type="button">Добавить <span>+</span></button>
+          <input
+            id="newCategoryName"
+            type="text"
+            maxlength="32"
+            placeholder="Новая категория"
+            aria-label="Название новой категории"
+          />
+          <button id="addCategoryButton" type="button">
+            Добавить <span>+</span>
+          </button>
         </div>
       </section>
     </div>
+    <div
+      class="modal-backdrop"
+      id="categoryBreakdownBackdrop"
+      aria-hidden="true"
+    >
+      <section
+        class="modal category-breakdown-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="categoryBreakdownTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeCategoryBreakdown"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
+        <p class="eyebrow">РАСХОДЫ ПО КАТЕГОРИЯМ</p>
+        <h2 id="categoryBreakdownTitle">Все категории</h2>
+        <p class="category-breakdown-period" id="categoryBreakdownPeriod"></p>
+        <div class="category-breakdown-total">
+          <span>Всего расходов</span
+          ><strong id="categoryBreakdownTotal">0 ₽</strong>
+        </div>
+        <ul class="category-breakdown-list" id="categoryBreakdownList"></ul>
+      </section>
+    </div>
     <div class="modal-backdrop" id="goalModalBackdrop" aria-hidden="true">
-      <section class="modal goal-manager-modal" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle">
-        <button class="modal-close" id="closeGoalModal" aria-label="Закрыть">×</button>
+      <section
+        class="modal goal-manager-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="goalModalTitle"
+      >
+        <button class="modal-close" id="closeGoalModal" aria-label="Закрыть">
+          ×
+        </button>
         <p class="eyebrow">ПЛАНИРОВАНИЕ</p>
         <h2 id="goalModalTitle">Мои цели</h2>
         <div class="goal-manager-list" id="goalManagerList"></div>
         <form class="goal-form" id="goalForm">
           <input id="goalEditId" type="hidden" />
           <p class="goal-form-heading" id="goalFormHeading">Новая цель</p>
-          <label>Название<input id="goalName" name="name" type="text" maxlength="48" placeholder="Например, ремонт" required /></label>
-          <div class="form-row"><label>Целевая сумма<input id="goalTargetInput" name="target" type="number" min="1" step="1" placeholder="0" required /></label><label>Накоплено<input id="goalSavedInput" name="saved" type="number" min="0" step="1" placeholder="0" required /></label></div>
-          <div class="goal-form-actions"><button class="goal-form-reset" id="resetGoalForm" type="button">Отменить</button><button class="submit-button" id="goalSubmit" type="submit">Добавить цель</button></div>
+          <label
+            >Название<input
+              id="goalName"
+              name="name"
+              type="text"
+              maxlength="48"
+              placeholder="Например, ремонт"
+              required
+          /></label>
+          <div class="form-row">
+            <label
+              >Целевая сумма<input
+                id="goalTargetInput"
+                name="target"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="0"
+                required /></label
+            ><label
+              >Накоплено<input
+                id="goalSavedInput"
+                name="saved"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+                required
+            /></label>
+          </div>
+          <div class="goal-form-actions">
+            <button class="goal-form-reset" id="resetGoalForm" type="button">
+              Отменить</button
+            ><button class="submit-button" id="goalSubmit" type="submit">
+              Добавить цель
+            </button>
+          </div>
         </form>
       </section>
     </div>
     <div class="modal-backdrop" id="depositGoalBackdrop" aria-hidden="true">
-      <section class="modal deposit-goal-modal" role="dialog" aria-modal="true" aria-labelledby="depositGoalModalTitle">
-        <button class="modal-close" id="closeDepositGoalModal" aria-label="Закрыть">×</button>
+      <section
+        class="modal deposit-goal-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="depositGoalModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeDepositGoalModal"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">ПОПОЛНЕНИЕ ЦЕЛИ</p>
         <h2 id="depositGoalModalTitle">Пополнить цель</h2>
         <p class="deposit-goal-caption" id="depositGoalCaption"></p>
         <form id="depositGoalForm">
-          <label>Сумма пополнения<input id="depositGoalAmount" name="amount" type="number" min="1" step="1" placeholder="0" required /></label>
-          <p class="deposit-goal-available">Можно добавить до <strong id="depositGoalAvailable">0 ₽</strong></p>
+          <label
+            >Сумма пополнения<input
+              id="depositGoalAmount"
+              name="amount"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="0"
+              required
+          /></label>
+          <p class="deposit-goal-available">
+            Можно добавить до <strong id="depositGoalAvailable">0 ₽</strong>
+          </p>
           <button class="submit-button" type="submit">Пополнить цель</button>
         </form>
       </section>
     </div>
     <div class="modal-backdrop" id="monthModalBackdrop" aria-hidden="true">
-      <section class="modal month-picker-modal" role="dialog" aria-modal="true" aria-labelledby="monthModalTitle">
-        <button class="modal-close" id="closeMonthModal" type="button" aria-label="Закрыть">×</button>
+      <section
+        class="modal month-picker-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="monthModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeMonthModal"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">ПЕРИОД ОТЧЁТА</p>
         <h2 id="monthModalTitle">Выберите месяц</h2>
-        <p class="month-picker-description">Сводка, журнал и аналитика будут показаны за выбранный месяц.</p>
-        <div class="month-shortcuts" role="group" aria-label="Быстрый выбор месяца">
+        <p class="month-picker-description">
+          Сводка, журнал и аналитика будут показаны за выбранный месяц.
+        </p>
+        <div
+          class="month-shortcuts"
+          role="group"
+          aria-label="Быстрый выбор месяца"
+        >
           <button id="selectCurrentMonth" type="button">Текущий месяц</button>
           <button id="selectPreviousMonth" type="button">Прошлый месяц</button>
         </div>
-        <label class="month-picker-field">Месяц<input id="monthModalInput" type="month" required /></label>
+        <label class="month-picker-field"
+          >Месяц<input id="monthModalInput" type="month" required
+        /></label>
         <div class="month-picker-actions">
-          <button class="month-picker-cancel" id="cancelMonthModal" type="button">Отмена</button>
-          <button class="submit-button" id="applyMonthModal" type="button">Применить период</button>
+          <button
+            class="month-picker-cancel"
+            id="cancelMonthModal"
+            type="button"
+          >
+            Отмена
+          </button>
+          <button class="submit-button" id="applyMonthModal" type="button">
+            Применить период
+          </button>
         </div>
       </section>
     </div>
     <div class="modal-backdrop" id="savingsModalBackdrop" aria-hidden="true">
-      <section class="modal savings-manager-modal" role="dialog" aria-modal="true" aria-labelledby="savingsModalTitle">
-        <button class="modal-close" id="closeSavingsModal" type="button" aria-label="Закрыть">×</button>
+      <section
+        class="modal savings-manager-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="savingsModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeSavingsModal"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">ЛИЧНЫЙ РЕЗЕРВ</p>
         <h2 id="savingsModalTitle">Сбережения</h2>
-        <p class="savings-manager-help">Добавляйте отдельные копилки: резерв, отпуск или крупные покупки.</p>
+        <p class="savings-manager-help">
+          Добавляйте отдельные копилки: резерв, отпуск или крупные покупки.
+        </p>
         <div class="savings-manager-list" id="savingsManagerList"></div>
         <form class="savings-form" id="savingsForm">
           <input id="savingsEditId" type="hidden" />
-          <p class="savings-form-heading" id="savingsFormHeading">Новое сбережение</p>
-          <label>Название<input id="savingsName" name="name" type="text" maxlength="48" placeholder="Например, финансовый резерв" required /></label>
-          <label>Сумма<input id="savingsAmount" name="amount" type="number" min="0" step="1" placeholder="0" required /></label>
-          <div class="savings-form-actions"><button class="savings-form-reset" id="resetSavingsForm" type="button">Отменить</button><button class="submit-button" id="savingsSubmit" type="submit">Добавить сбережение</button></div>
+          <p class="savings-form-heading" id="savingsFormHeading">
+            Новое сбережение
+          </p>
+          <label
+            >Название<input
+              id="savingsName"
+              name="name"
+              type="text"
+              maxlength="48"
+              placeholder="Например, финансовый резерв"
+              required
+          /></label>
+          <label
+            >Сумма<input
+              id="savingsAmount"
+              name="amount"
+              type="number"
+              min="0"
+              step="1"
+              placeholder="0"
+              required
+          /></label>
+          <div class="savings-form-actions">
+            <button
+              class="savings-form-reset"
+              id="resetSavingsForm"
+              type="button"
+            >
+              Отменить</button
+            ><button class="submit-button" id="savingsSubmit" type="submit">
+              Добавить сбережение
+            </button>
+          </div>
         </form>
       </section>
     </div>
     <div class="modal-backdrop" id="debtsModalBackdrop" aria-hidden="true">
-      <section class="modal debts-manager-modal" role="dialog" aria-modal="true" aria-labelledby="debtsModalTitle">
-        <button class="modal-close" id="closeDebtsModal" type="button" aria-label="Закрыть">×</button>
+      <section
+        class="modal debts-manager-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="debtsModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeDebtsModal"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">ФИНАНСОВЫЕ ОБЯЗАТЕЛЬСТВА</p>
         <h2 id="debtsModalTitle">Кредиты и долги</h2>
-        <p class="debts-manager-help">Учитывайте кредиты, займы и другие долги. Остаток ведётся отдельно от операций.</p>
+        <p class="debts-manager-help">
+          Учитывайте кредиты, займы и другие долги. Остаток ведётся отдельно от
+          операций.
+        </p>
         <div class="debts-manager-list" id="debtsManagerList"></div>
         <form class="debts-form" id="debtsForm">
           <input id="debtsEditId" type="hidden" />
-          <p class="debts-form-heading" id="debtsFormHeading">Новое обязательство</p>
-          <label>Название<input id="debtsName" type="text" maxlength="48" placeholder="Например, автокредит" required /></label>
-          <label>Тип<select id="debtsType"><option>Кредит</option><option>Займ</option><option>Долг</option><option>Другое</option></select></label>
+          <p class="debts-form-heading" id="debtsFormHeading">
+            Новое обязательство
+          </p>
+          <label
+            >Название<input
+              id="debtsName"
+              type="text"
+              maxlength="48"
+              placeholder="Например, автокредит"
+              required
+          /></label>
+          <label
+            >Тип<select id="debtsType">
+              <option>Кредит</option>
+              <option>Займ</option>
+              <option>Долг</option>
+              <option>Другое</option>
+            </select></label
+          >
           <div class="form-row">
-            <label>Остаток долга, ₽<input id="debtsAmount" type="number" min="0" step="1" placeholder="0" required /></label>
-            <label>Платёж в месяц, ₽<input id="debtsPayment" type="number" min="0" step="1" placeholder="0" value="0" /></label>
+            <label
+              >Остаток долга, ₽<input
+                id="debtsAmount"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+                required
+            /></label>
+            <label
+              >Платёж в месяц, ₽<input
+                id="debtsPayment"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+                value="0"
+            /></label>
           </div>
-          <div class="debts-form-actions"><button class="debts-form-reset" id="resetDebtsForm" type="button">Отменить</button><button class="submit-button" id="debtsSubmit" type="submit">Добавить обязательство</button></div>
+          <div class="debts-form-actions">
+            <button class="debts-form-reset" id="resetDebtsForm" type="button">
+              Отменить</button
+            ><button class="submit-button" id="debtsSubmit" type="submit">
+              Добавить обязательство
+            </button>
+          </div>
         </form>
       </section>
     </div>
     <div class="modal-backdrop" id="settingsModalBackdrop" aria-hidden="true">
-      <section class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
-        <button class="modal-close" id="closeSettingsModal" type="button" aria-label="Закрыть">×</button>
+      <section
+        class="modal settings-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settingsModalTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeSettingsModal"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">КОНФИДЕНЦИАЛЬНОСТЬ</p>
         <h2 id="settingsModalTitle">Настройки защиты</h2>
         <p class="settings-status" id="settingsStatus"></p>
         <form id="settingsForm">
-          <label id="currentPinField">Текущий PIN-код<input id="currentPin" name="currentPin" type="password" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{4}" maxlength="4" /></label>
-          <label>Новый PIN-код<input id="newPin" name="newPin" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{4}" maxlength="4" required /></label>
-          <label>Повторите PIN-код<input id="confirmPin" name="confirmPin" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{4}" maxlength="4" required /></label>
-          <p class="pin-form-error" id="settingsPinError" role="alert" aria-live="polite"></p>
-          <button class="submit-button" id="settingsPinSubmit" type="submit">Включить защиту</button>
-          <button class="disable-pin-button" id="disablePinButton" type="button">Отключить PIN-код</button>
+          <label id="currentPinField"
+            >Текущий PIN-код<input
+              id="currentPin"
+              name="currentPin"
+              type="password"
+              inputmode="numeric"
+              autocomplete="current-password"
+              pattern="[0-9]{4}"
+              maxlength="4"
+          /></label>
+          <label
+            >Новый PIN-код<input
+              id="newPin"
+              name="newPin"
+              type="password"
+              inputmode="numeric"
+              autocomplete="new-password"
+              pattern="[0-9]{4}"
+              maxlength="4"
+              required
+          /></label>
+          <label
+            >Повторите PIN-код<input
+              id="confirmPin"
+              name="confirmPin"
+              type="password"
+              inputmode="numeric"
+              autocomplete="new-password"
+              pattern="[0-9]{4}"
+              maxlength="4"
+              required
+          /></label>
+          <p
+            class="pin-form-error"
+            id="settingsPinError"
+            role="alert"
+            aria-live="polite"
+          ></p>
+          <button class="submit-button" id="settingsPinSubmit" type="submit">
+            Включить защиту
+          </button>
+          <button
+            class="disable-pin-button"
+            id="disablePinButton"
+            type="button"
+          >
+            Отключить PIN-код
+          </button>
         </form>
       </section>
     </div>
-    <section class="lock-screen" id="lockScreen" role="dialog" aria-modal="true" aria-labelledby="lockScreenTitle" aria-hidden="true" hidden>
+    <section
+      class="lock-screen"
+      id="lockScreen"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lockScreenTitle"
+      aria-hidden="true"
+      hidden
+    >
       <div class="lock-screen-panel">
-        <div class="lock-brand" aria-hidden="true"><span>S</span><b>saldo</b></div>
+        <div class="lock-brand" aria-hidden="true">
+          <span>S</span><b>saldo</b>
+        </div>
         <p class="lock-kicker">ЗАЩИТА ДАННЫХ</p>
         <h1 id="lockScreenTitle">Личный счёт<br />заблокирован</h1>
-        <p class="lock-description">Введите PIN-код, чтобы продолжить работу с финансовыми данными.</p>
+        <p class="lock-description">
+          Введите PIN-код, чтобы продолжить работу с финансовыми данными.
+        </p>
         <form id="lockForm" class="lock-form">
           <label for="lockPin">PIN-код</label>
-          <input id="lockPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{4}" maxlength="4" required aria-describedby="lockPinError" />
-          <p class="lock-pin-error" id="lockPinError" role="alert" aria-live="polite"></p>
+          <input
+            id="lockPin"
+            name="pin"
+            type="password"
+            inputmode="numeric"
+            autocomplete="current-password"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            required
+            aria-describedby="lockPinError"
+          />
+          <p
+            class="lock-pin-error"
+            id="lockPinError"
+            role="alert"
+            aria-live="polite"
+          ></p>
           <button type="submit">Разблокировать</button>
         </form>
       </div>
     </section>
-    <section class="profile-page" id="profilePage" aria-labelledby="profilePageTitle" hidden>
+    <section
+      class="profile-page"
+      id="profilePage"
+      aria-labelledby="profilePageTitle"
+      hidden
+    >
       <header class="profile-page-header">
-        <button class="profile-back-button" id="closeProfilePage" type="button" aria-label="Вернуться в приложение">←</button>
+        <button
+          class="profile-back-button"
+          id="closeProfilePage"
+          type="button"
+          aria-label="Вернуться в приложение"
+        >
+          ←
+        </button>
         <h1 id="profilePageTitle">Профиль</h1>
       </header>
       <div class="profile-page-card">
@@ -401,29 +1077,124 @@
         <p>Личный аккаунт Saldo</p>
       </div>
       <div class="profile-page-actions">
-        <button class="profile-action-button" id="profilePinButton" type="button"><span class="profile-action-icon">⌑</span><span><strong>PIN-код</strong><small>Настроить защиту приложения</small></span><span aria-hidden="true">›</span></button>
-        <button class="profile-action-button profile-install-action" id="profileInstallButton" type="button"><span class="profile-action-icon">↓</span><span><strong>Установить приложение</strong><small>Добавить Saldo на устройство</small></span><span aria-hidden="true">›</span></button>
-        <button class="profile-action-button delete-account-action-button" id="profileDeleteAccountButton" type="button"><span class="profile-action-icon">!</span><span><strong>Удалить профиль</strong><small>Безвозвратно удалить аккаунт и данные</small></span><span aria-hidden="true">›</span></button>
-        <button class="profile-action-button logout-action-button" id="profileLogoutButton" type="button"><span class="profile-action-icon">↪</span><span><strong>Выйти</strong><small>Завершить сеанс аккаунта</small></span><span aria-hidden="true">›</span></button>
+        <button
+          class="profile-action-button"
+          id="profilePinButton"
+          type="button"
+        >
+          <span class="profile-action-icon">⌑</span
+          ><span
+            ><strong>PIN-код</strong
+            ><small>Настроить защиту приложения</small></span
+          ><span aria-hidden="true">›</span>
+        </button>
+        <button
+          class="profile-action-button profile-install-action"
+          id="profileInstallButton"
+          type="button"
+        >
+          <span class="profile-action-icon">↓</span
+          ><span
+            ><strong>Установить приложение</strong
+            ><small>Добавить Saldo на устройство</small></span
+          ><span aria-hidden="true">›</span>
+        </button>
+        <button
+          class="profile-action-button delete-account-action-button"
+          id="profileDeleteAccountButton"
+          type="button"
+        >
+          <span class="profile-action-icon">!</span
+          ><span
+            ><strong>Удалить профиль</strong
+            ><small>Безвозвратно удалить аккаунт и данные</small></span
+          ><span aria-hidden="true">›</span>
+        </button>
+        <button
+          class="profile-action-button logout-action-button"
+          id="profileLogoutButton"
+          type="button"
+        >
+          <span class="profile-action-icon">↪</span
+          ><span
+            ><strong>Выйти</strong><small>Завершить сеанс аккаунта</small></span
+          ><span aria-hidden="true">›</span>
+        </button>
       </div>
     </section>
     <div class="modal-backdrop" id="logoutConfirmBackdrop" aria-hidden="true">
-      <section class="modal logout-confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="logoutConfirmTitle">
+      <section
+        class="modal logout-confirm-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="logoutConfirmTitle"
+      >
         <h2 id="logoutConfirmTitle">Выйти из аккаунта?</h2>
         <p>После выхода для доступа к данным потребуется снова войти.</p>
-        <div class="logout-confirm-actions"><button class="month-picker-cancel" id="cancelLogout" type="button">Отмена</button><button class="logout-confirm-button" id="confirmLogout" type="button">Выйти</button></div>
+        <div class="logout-confirm-actions">
+          <button class="month-picker-cancel" id="cancelLogout" type="button">
+            Отмена</button
+          ><button
+            class="logout-confirm-button"
+            id="confirmLogout"
+            type="button"
+          >
+            Выйти
+          </button>
+        </div>
       </section>
     </div>
     <div class="modal-backdrop" id="deleteAccountBackdrop" aria-hidden="true">
-      <section class="modal logout-confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="deleteAccountTitle">
-        <button class="modal-close" id="closeDeleteAccount" type="button" aria-label="Закрыть">×</button>
+      <section
+        class="modal logout-confirm-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="deleteAccountTitle"
+      >
+        <button
+          class="modal-close"
+          id="closeDeleteAccount"
+          type="button"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         <p class="eyebrow">ОПАСНОЕ ДЕЙСТВИЕ</p>
         <h2 id="deleteAccountTitle">Удалить профиль?</h2>
-        <p>Аккаунт и все облачные финансовые данные будут удалены без возможности восстановления. Для подтверждения введите пароль.</p>
+        <p>
+          Аккаунт и все облачные финансовые данные будут удалены без возможности
+          восстановления. Для подтверждения введите пароль.
+        </p>
         <form id="deleteAccountForm">
-          <label>Пароль<input id="deleteAccountPassword" name="password" type="password" autocomplete="current-password" required /></label>
-          <p class="pin-form-error" id="deleteAccountError" role="alert" aria-live="polite"></p>
-          <div class="logout-confirm-actions"><button class="month-picker-cancel" id="cancelDeleteAccount" type="button">Отмена</button><button class="delete-account-confirm-button" id="confirmDeleteAccount" type="submit">Удалить профиль</button></div>
+          <label
+            >Пароль<input
+              id="deleteAccountPassword"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+          /></label>
+          <p
+            class="pin-form-error"
+            id="deleteAccountError"
+            role="alert"
+            aria-live="polite"
+          ></p>
+          <div class="logout-confirm-actions">
+            <button
+              class="month-picker-cancel"
+              id="cancelDeleteAccount"
+              type="button"
+            >
+              Отмена</button
+            ><button
+              class="delete-account-confirm-button"
+              id="confirmDeleteAccount"
+              type="submit"
+            >
+              Удалить профиль
+            </button>
+          </div>
         </form>
       </section>
     </div>

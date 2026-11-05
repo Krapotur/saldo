@@ -110,6 +110,10 @@ const elements = {
   donut: document.querySelector("#donutChart"),
   categoryTotal: document.querySelector("#categoryTotal"),
   categoryList: document.querySelector("#categoryList"),
+  categoryBreakdownBackdrop: document.querySelector("#categoryBreakdownBackdrop"),
+  categoryBreakdownList: document.querySelector("#categoryBreakdownList"),
+  categoryBreakdownTotal: document.querySelector("#categoryBreakdownTotal"),
+  categoryBreakdownPeriod: document.querySelector("#categoryBreakdownPeriod"),
   transactionList: document.querySelector("#transactionList"),
   categoryPanel: document.querySelector("#categoryPanel"),
   categoryIndex: document.querySelector("#categoryIndex"),
@@ -696,6 +700,36 @@ function renderCategories() {
     const share = Math.round((value / total) * 100);
     return `<li><div class="category-list-heading"><i style="--category-color:${colors[index]}"></i><span>${escapeHtml(category)}</span><strong>${share}%</strong></div><div class="category-share-track"><b style="--category-color:${colors[index]};width:${share}%"></b></div></li>`;
   }).join("") : '<li class="category-list-empty">Нет расходов за месяц</li>';
+}
+
+function openCategoryBreakdown() {
+  const totals = getSelectedMonthTransactions()
+    .filter((item) => item.type === "expense")
+    .reduce((groups, item) => {
+      groups[item.category] = (groups[item.category] || 0) + item.amount;
+      return groups;
+    }, {});
+  const entries = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  const total = entries.reduce((sum, [, amount]) => sum + amount, 0);
+
+  elements.categoryBreakdownPeriod.textContent = formatMonth(state.month);
+  elements.categoryBreakdownTotal.textContent = money(total);
+  elements.categoryBreakdownList.innerHTML = entries.length
+    ? entries.map(([category, amount]) => {
+      const color = palette[category] || palette["Другое"];
+      const share = total ? Math.round((amount / total) * 100) : 0;
+      return `<li><span class="category-breakdown-swatch" style="--category-color:${color}"></span><span class="category-breakdown-name">${escapeHtml(category)}</span><span class="category-breakdown-share">${share}%</span><strong>${money(amount)}</strong></li>`;
+    }).join("")
+    : '<li class="category-breakdown-empty">За этот месяц расходов нет.</li>';
+  elements.categoryBreakdownBackdrop.classList.add("visible");
+  elements.categoryBreakdownBackdrop.setAttribute("aria-hidden", "false");
+  document.querySelector("#closeCategoryBreakdown").focus();
+}
+
+function closeCategoryBreakdown() {
+  elements.categoryBreakdownBackdrop.classList.remove("visible");
+  elements.categoryBreakdownBackdrop.setAttribute("aria-hidden", "true");
+  elements.donut.focus();
 }
 
 function renderIncomePanel() {
@@ -1491,6 +1525,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!state.pinUnlocked) return;
   if (elements.settingsBackdrop.classList.contains("visible")) closeSettingsModal();
+  else if (elements.categoryBreakdownBackdrop.classList.contains("visible")) closeCategoryBreakdown();
   else if (elements.debtsBackdrop.classList.contains("visible")) closeDebtsModal();
   else if (elements.savingsBackdrop.classList.contains("visible")) closeSavingsModal();
   else if (elements.monthBackdrop.classList.contains("visible")) closeMonthModal();
@@ -1722,6 +1757,20 @@ elements.categoryPanel.addEventListener("keydown", (event) => {
     event.preventDefault();
     toggleCategoryPanel();
   }
+});
+elements.donut.addEventListener("click", (event) => {
+  event.stopPropagation();
+  openCategoryBreakdown();
+});
+elements.donut.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  event.stopPropagation();
+  openCategoryBreakdown();
+});
+document.querySelector("#closeCategoryBreakdown").addEventListener("click", closeCategoryBreakdown);
+elements.categoryBreakdownBackdrop.addEventListener("click", (event) => {
+  if (event.target === elements.categoryBreakdownBackdrop) closeCategoryBreakdown();
 });
 elements.addToGoal.addEventListener("click", () => {
   const goal = getActiveGoal();
