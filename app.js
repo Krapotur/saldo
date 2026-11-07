@@ -20,6 +20,7 @@ const DEFAULT_CATEGORIES = {
   expense: ["Продукты", "Кафе", "Транспорт", "Дом", "Здоровье", "Развлечения", "Покупки", "Другое"],
   income: ["Зарплата", "Фриланс", "Перевод", "Другое"]
 };
+const GOAL_EXPENSE_CATEGORY = "Цели";
 
 function isValidPin(value) {
   return /^[0-9]{4}$/.test(value);
@@ -89,6 +90,7 @@ const elements = {
   openSavingsButton: document.querySelector("#openSavingsModal"),
   savingsWidgetList: document.querySelector("#savingsWidgetList"),
   income: document.querySelector("#incomeValue"),
+  incomeExpected: document.querySelector("#incomeExpected"),
   expense: document.querySelector("#expenseValue"),
   incomeChange: document.querySelector("#incomeChange"),
   expenseChange: document.querySelector("#expenseChange"),
@@ -406,6 +408,11 @@ function getPostedTransactions(transactions) {
   return transactions.filter((item) => item.date && item.date <= today);
 }
 
+function getExpectedTransactions(transactions) {
+  const today = getTodayKey();
+  return transactions.filter((item) => item.date && item.date > today);
+}
+
 function getPreviousMonthKey(monthKey) {
   const [year, month] = monthKey.split("-").map(Number);
   return getMonthKey(new Date(year, month - 2, 1));
@@ -420,14 +427,6 @@ function formatChange(current, previous) {
 
 function hasNegativeChange(current, previous) {
   return previous !== 0 && current < previous;
-}
-
-function formatChangeToPrevious(current, previous) {
-  return formatChange(previous, current);
-}
-
-function hasNegativeChangeToPrevious(current, previous) {
-  return hasNegativeChange(previous, current);
 }
 
 function formatMonth(monthValue) {
@@ -459,6 +458,18 @@ function sumByType(type, transactions = state.transactions) {
   return transactions.filter((item) => item.type === type).reduce((sum, item) => sum + item.amount, 0);
 }
 
+function isGoalExpenseCategory(category) {
+  return category === GOAL_EXPENSE_CATEGORY;
+}
+
+function withoutGoalExpenses(transactions) {
+  return transactions.filter((item) => !isGoalExpenseCategory(item.category));
+}
+
+function getOperatingExpenseCategories() {
+  return state.categories.expense.filter((category) => !isGoalExpenseCategory(category));
+}
+
 function getDateParts(dateString) {
   const date = new Date(`${dateString}T12:00:00`);
   return { date, day: date.toLocaleDateString("ru-RU", { day: "numeric", month: "short" }) };
@@ -475,14 +486,16 @@ function renderSummary() {
   const cumulativeTransactions = getPostedTransactions(state.transactions.filter((item) => item.date?.slice(0, 7) <= state.month));
   const previousCumulativeTransactions = getPostedTransactions(state.transactions.filter((item) => item.date?.slice(0, 7) <= getPreviousMonthKey(state.month)));
   const income = sumByType("income", monthTransactions);
-  const expense = sumByType("expense", monthTransactions);
+  const expectedIncome = sumByType("income", getExpectedTransactions(getSelectedMonthTransactions()));
+  const expense = sumByType("expense", withoutGoalExpenses(monthTransactions));
   const previousIncome = sumByType("income", previousMonthTransactions);
-  const previousExpense = sumByType("expense", previousMonthTransactions);
+  const previousExpense = sumByType("expense", withoutGoalExpenses(previousMonthTransactions));
   const balance = sumByType("income", cumulativeTransactions) - sumByType("expense", cumulativeTransactions);
   const previousBalance = sumByType("income", previousCumulativeTransactions) - sumByType("expense", previousCumulativeTransactions);
   const daysInPeriod = getSelectedMonthDayCount();
   const financialsVisible = state.balanceVisible;
   elements.income.textContent = financialsVisible ? money(income) : "•••••• ₽";
+  elements.incomeExpected.textContent = financialsVisible ? money(expectedIncome) : "•••••• ₽";
   elements.expense.textContent = financialsVisible ? money(expense) : "•••••• ₽";
   elements.incomeChange.textContent = financialsVisible ? formatChange(income, previousIncome) : "••••";
   elements.expenseChange.textContent = financialsVisible ? formatChange(expense, previousExpense) : "••••";
@@ -539,9 +552,9 @@ function renderBalanceWidget(balance, previousBalance) {
     elements.balanceDescription.textContent = state.savings.length ? "накоплено в копилках" : "добавьте первое сбережение";
     elements.balancePill.classList.remove("negative-change");
   } else {
-    elements.balancePill.textContent = formatChangeToPrevious(balance, previousBalance);
-    elements.balanceDescription.textContent = "от текущего к прошлому месяцу";
-    elements.balancePill.classList.toggle("negative-change", summaryVisible && hasNegativeChangeToPrevious(balance, previousBalance));
+    elements.balancePill.textContent = formatChange(balance, previousBalance);
+    elements.balanceDescription.textContent = "к предыдущему месяцу";
+    elements.balancePill.classList.toggle("negative-change", summaryVisible && hasNegativeChange(balance, previousBalance));
   }
   elements.balanceCode.textContent = showingSavings ? "SAVINGS / 02" : "BALANCE / 01";
   elements.balanceVisibility.setAttribute("aria-label", summaryVisible ? `Скрыть ${showingSavings ? "сбережения" : "баланс"}` : `Показать ${showingSavings ? "сбережения" : "баланс"}`);
@@ -634,12 +647,12 @@ function renderBarChart() {
 }
 
 function renderExpensePlan() {
-  const expenses = getPostedTransactions(getSelectedMonthTransactions()).filter((item) => item.type === "expense");
+  const expenses = withoutGoalExpenses(getPostedTransactions(getSelectedMonthTransactions()).filter((item) => item.type === "expense"));
   const actualByCategory = expenses.reduce((totals, item) => {
     totals[item.category] = (totals[item.category] || 0) + item.amount;
     return totals;
   }, {});
-  const categories = state.categories.expense;
+  const categories = getOperatingExpenseCategories();
   const monthPlans = state.expensePlans[state.month] || {};
   const expectedTotal = categories.reduce((sum, category) => sum + (monthPlans[category] || 0), 0);
   const actualTotal = Object.values(actualByCategory).reduce((sum, amount) => sum + amount, 0);

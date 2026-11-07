@@ -229,7 +229,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .metric-code { color: #abb5c2; font-size: 8px; }
 .metric-label { margin-top: 23px; color: var(--muted); font-size: 11px; font-weight: 500; }
 .stat-card strong { display: block; margin-top: 3px; font-size: clamp(21px, 2vw, 29px); letter-spacing: -1.3px; line-height: 1.1; }
-.stat-card p { margin: auto 0 0; color: var(--muted); font-size: 9px; }.income-card p b { color: #16815f; }.expense-card p b { color: #c85042; }.stat-card p b.negative-change { color: #c85042; }.expense-card p b.negative-change { color: #16815f; }
+.stat-card p { margin: auto 0 0; color: var(--muted); font-size: 9px; }.stat-card .metric-expected { margin: 6px 0 0; }.income-card p b { color: #16815f; }.expense-card p b { color: #c85042; }.stat-card p b.negative-change { color: #c85042; }.expense-card p b.negative-change { color: #16815f; }
 .daily-expense-card { position: relative; isolation: isolate; overflow: hidden; border-color: #e3b8c1; background: #f8f8f8; box-shadow: 0 14px 30px rgba(123, 49, 68, 0.13); color: #4d2030; }
 .daily-expense-card::before { position: absolute; z-index: -1; top: -88px; right: -74px; width: 205px; height: 205px; border: 1px solid rgba(103, 36, 56, 0.13); border-radius: 50%; box-shadow: 0 0 0 28px rgba(255,255,255,0.38), 0 0 0 56px rgba(103,36,56,0.035); content: ""; }
 .daily-expense-card .metric-icon { background: #66243a; color: #f9dce4; }.daily-expense-card .metric-code { color: rgba(77, 32, 48, 0.58); }.daily-expense-card .metric-label { color: rgba(77, 32, 48, 0.72); }.daily-expense-card strong { color: #4d2030; font-size: clamp(23px, 2.2vw, 31px); }.daily-expense-card p { color: rgba(77, 32, 48, 0.66); }
