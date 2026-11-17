@@ -98,6 +98,26 @@ try {
   window.addEventListener("online", synchronizePending);
   if (remoteAvailable) await synchronizePending();
   await import("./app.js");
+  const welcomeUrl = new URL(window.location.href);
+  if (welcomeUrl.searchParams.has("welcome")) {
+    welcomeUrl.searchParams.delete("welcome");
+    window.history.replaceState(null, "", `${welcomeUrl.pathname}${welcomeUrl.search}${welcomeUrl.hash}`);
+    const welcomeKey = `saldo-welcome-shown-v1:${user.uid}`;
+    if (!localStorage.getItem(welcomeKey)) {
+      const backdrop = document.querySelector("#welcomeModalBackdrop");
+      const closeWelcome = () => {
+        backdrop.classList.remove("visible");
+        backdrop.setAttribute("aria-hidden", "true");
+      };
+      localStorage.setItem(welcomeKey, "1");
+      backdrop.classList.add("visible");
+      backdrop.setAttribute("aria-hidden", "false");
+      document.querySelector("#welcomeContinue").addEventListener("click", closeWelcome);
+      backdrop.addEventListener("click", (event) => {
+        if (event.target === backdrop) closeWelcome();
+      });
+    }
+  }
 } catch (error) {
   console.error("Не удалось загрузить данные Saldo из Firestore", error);
   window.location.replace("register.html?mode=login");

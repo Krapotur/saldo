@@ -327,6 +327,35 @@
           </article>
         </section>
 
+        <section class="income-split panel" aria-labelledby="incomeSplitTitle">
+          <div class="panel-header">
+            <div>
+              <span class="section-index">04 / РАСПРЕДЕЛЕНИЕ</span>
+              <h2 id="incomeSplitTitle">Распределение дохода</h2>
+            </div>
+            <span class="income-split-total" id="incomeSplitTotal">Доход с учетом будущих поступлений: 0 ₽</span>
+          </div>
+          <div class="income-split-grid">
+            <label class="income-split-item life" for="splitLife">
+              <span>На жизнь</span>
+              <span class="income-split-controls"><input id="splitLife" type="number" min="0" max="100" step="1" value="70" inputmode="numeric" aria-label="Процент на жизнь" /><b>%</b></span>
+              <strong id="splitLifeAmount">0 ₽</strong>
+            </label>
+            <label class="income-split-item savings" for="splitSavings">
+              <span>Сбережения</span>
+              <span class="income-split-controls"><input id="splitSavings" type="number" min="0" max="100" step="1" value="20" inputmode="numeric" aria-label="Процент на сбережения" /><b>%</b></span>
+              <strong id="splitSavingsAmount">0 ₽</strong>
+            </label>
+            <label class="income-split-item self" for="splitSelf">
+              <span>На себя</span>
+              <span class="income-split-controls"><input id="splitSelf" type="number" min="0" max="100" step="1" value="10" inputmode="numeric" aria-label="Процент на себя" /><b>%</b></span>
+              <strong id="splitSelfAmount">0 ₽</strong>
+            </label>
+          </div>
+          <p class="income-split-note" id="incomeSplitNote" aria-live="polite">Измените проценты под свои цели. По умолчанию — 70 / 20 / 10.</p>
+          <p class="income-split-forecast" id="incomeSplitForecast" aria-live="polite">Если каждый месяц откладывать выбранный процент при таком же доходе: за полгода — 0 ₽, за год — 0 ₽.</p>
+        </section>
+
         <section class="analytics-grid" id="analytics">
           <article class="panel chart-panel">
             <div class="panel-header chart-header">
@@ -417,7 +446,7 @@
           <div class="panel-header expense-plan-header">
             <div>
               <span class="section-index">03 / ПЛАН</span>
-              <h2 id="expensePlanTitle">Расходы</h2>
+              <h2 id="expensePlanTitle">Планирование расходов</h2>
             </div>
             <span class="expense-plan-hint" id="expensePlanHint"
               >План на выбранный месяц</span
@@ -1197,6 +1226,20 @@
             </button>
           </div>
         </form>
+      </section>
+    </div>
+    <div class="modal-backdrop" id="welcomeModalBackdrop" aria-hidden="true">
+      <section class="modal welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
+        <div class="welcome-mark" aria-hidden="true">S</div>
+        <p class="eyebrow">ДОБРО ПОЖАЛОВАТЬ В SALDO</p>
+        <h2 id="welcomeModalTitle">Ваши финансы — под контролем</h2>
+        <p class="welcome-intro">Saldo помогает навести порядок в деньгах и уверенно двигаться к своим целям.</p>
+        <ul class="welcome-benefits">
+          <li><span aria-hidden="true">↗</span><span><strong>Доходы и расходы</strong><small>Записывайте операции и следите за балансом.</small></span></li>
+          <li><span aria-hidden="true">◎</span><span><strong>Цели и накопления</strong><small>Планируйте крупные покупки и отмечайте прогресс.</small></span></li>
+          <li><span aria-hidden="true">▤</span><span><strong>Понятная картина</strong><small>Анализируйте траты по категориям и периодам.</small></span></li>
+        </ul>
+        <button class="submit-button" id="welcomeContinue" type="button">Начать работу →</button>
       </section>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

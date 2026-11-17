@@ -259,7 +259,7 @@ import "./firebase-client.js";
       });
       form.reset();
       setStatus("Аккаунт создан. Переходим к приложению…", "success");
-      window.location.replace("./");
+      window.location.replace("./?welcome=1");
     } catch (error) {
       setStatus(formatRegistrationError(error), "error");
     } finally {

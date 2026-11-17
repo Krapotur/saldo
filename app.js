@@ -6,6 +6,7 @@ const CATEGORY_STORAGE_KEY = "saldo-categories-v1";
 const SAVINGS_STORAGE_KEY = "saldo-savings-v1";
 const DEBTS_STORAGE_KEY = "saldo-debts-v1";
 const EXPENSE_PLANS_STORAGE_KEY = "saldo-expense-plans-v1";
+const INCOME_SPLIT_STORAGE_KEY = "saldo-income-split-v1";
 const PIN_STORAGE_KEY = "saldo-pin-v1";
 const LOCAL_ACCOUNTS_STORAGE_KEY = "saldo-local-accounts-v1";
 const LOCAL_SESSION_STORAGE_KEY = "saldo-local-session-v1";
@@ -21,6 +22,18 @@ const DEFAULT_CATEGORIES = {
   income: ["Зарплата", "Фриланс", "Перевод", "Другое"]
 };
 const GOAL_EXPENSE_CATEGORY = "Цели";
+
+function loadIncomeSplit() {
+  try {
+    const values = JSON.parse(localStorage.getItem(INCOME_SPLIT_STORAGE_KEY));
+    if (!values || ![values.life, values.savings, values.self].every((value) => Number.isFinite(value) && value >= 0 && value <= 100)) {
+      return { life: 70, savings: 20, self: 10 };
+    }
+    return values;
+  } catch {
+    return { life: 70, savings: 20, self: 10 };
+  }
+}
 
 function isValidPin(value) {
   return /^[0-9]{4}$/.test(value);
@@ -56,6 +69,7 @@ const state = {
   savings: loadSavings(),
   debts: loadDebts(),
   expensePlans: loadExpensePlans(),
+  incomeSplit: loadIncomeSplit(),
   debtViewIndex: -1,
   activeGoalId: localStorage.getItem(ACTIVE_GOAL_STORAGE_KEY),
   month: getMonthKey(new Date()),
@@ -108,6 +122,15 @@ const elements = {
   expensePlanDifferenceBar: document.querySelector("#expensePlanDifferenceBar"),
   expensePlanRows: document.querySelector("#expensePlanRows"),
   expensePlanHint: document.querySelector("#expensePlanHint"),
+  incomeSplitTotal: document.querySelector("#incomeSplitTotal"),
+  incomeSplitNote: document.querySelector("#incomeSplitNote"),
+  incomeSplitForecast: document.querySelector("#incomeSplitForecast"),
+  splitLife: document.querySelector("#splitLife"),
+  splitSavings: document.querySelector("#splitSavings"),
+  splitSelf: document.querySelector("#splitSelf"),
+  splitLifeAmount: document.querySelector("#splitLifeAmount"),
+  splitSavingsAmount: document.querySelector("#splitSavingsAmount"),
+  splitSelfAmount: document.querySelector("#splitSelfAmount"),
   chartPeakDay: document.querySelector("#chartPeakDay"),
   donut: document.querySelector("#donutChart"),
   categoryTotal: document.querySelector("#categoryTotal"),
@@ -486,6 +509,7 @@ function renderSummary() {
   const cumulativeTransactions = getPostedTransactions(state.transactions.filter((item) => item.date?.slice(0, 7) <= state.month));
   const previousCumulativeTransactions = getPostedTransactions(state.transactions.filter((item) => item.date?.slice(0, 7) <= getPreviousMonthKey(state.month)));
   const income = sumByType("income", monthTransactions);
+  const plannedIncome = sumByType("income", getSelectedMonthTransactions());
   const expectedIncome = sumByType("income", getExpectedTransactions(getSelectedMonthTransactions()));
   const expense = sumByType("expense", withoutGoalExpenses(monthTransactions));
   const previousIncome = sumByType("income", previousMonthTransactions);
@@ -505,6 +529,38 @@ function renderSummary() {
   elements.dailyExpensePeriod.textContent = `за ${daysInPeriod} ${pluralizeDays(daysInPeriod)}`;
   renderBalanceWidget(balance, previousBalance);
   renderDebtsSummary();
+  renderIncomeSplit(plannedIncome);
+}
+
+function renderIncomeSplit(income) {
+  const keys = ["life", "savings", "self"];
+  const inputs = [elements.splitLife, elements.splitSavings, elements.splitSelf];
+  const amounts = [elements.splitLifeAmount, elements.splitSavingsAmount, elements.splitSelfAmount];
+  const totalPercent = keys.reduce((sum, key) => sum + state.incomeSplit[key], 0);
+  const visible = state.balanceVisible;
+  elements.incomeSplitTotal.textContent = `Доход: ${visible ? money(income) : "•••••• ₽"}`;
+  inputs.forEach((input, index) => {
+    input.value = state.incomeSplit[keys[index]];
+    amounts[index].textContent = visible ? money(income * state.incomeSplit[keys[index]] / 100) : "•••••• ₽";
+  });
+  elements.incomeSplitNote.textContent = totalPercent === 100
+    ? "Измените проценты под свои цели."
+    : `Сумма процентов — ${totalPercent}%. Для распределения всего дохода установите 100%.`;
+  elements.incomeSplitNote.classList.toggle("invalid", totalPercent !== 100);
+  const monthlySavings = income * state.incomeSplit.savings / 100;
+  elements.incomeSplitForecast.textContent = visible
+    ? `Если каждый месяц откладывать ${state.incomeSplit.savings}% при таком же доходе: за полгода — ${money(monthlySavings * 6)}, за год — ${money(monthlySavings * 12)}.`
+    : "Прогноз накоплений скрыт вместе с финансовыми данными.";
+}
+
+function updateIncomeSplit() {
+  const fields = [[elements.splitLife, "life"], [elements.splitSavings, "savings"], [elements.splitSelf, "self"]];
+  fields.forEach(([input, key]) => {
+    const value = Number(input.value);
+    state.incomeSplit[key] = Number.isFinite(value) ? Math.min(100, Math.max(0, value)) : 0;
+  });
+  localStorage.setItem(INCOME_SPLIT_STORAGE_KEY, JSON.stringify(state.incomeSplit));
+  renderIncomeSplit(sumByType("income", getSelectedMonthTransactions()));
 }
 
 function renderDebtsSummary() {
@@ -1743,6 +1799,11 @@ document.querySelectorAll(".filter-button").forEach((button) => {
 });
 
 document.querySelector("#periodSelect").addEventListener("change", renderBarChart);
+[
+  elements.splitLife,
+  elements.splitSavings,
+  elements.splitSelf,
+].forEach((input) => input.addEventListener("input", updateIncomeSplit));
 elements.monthSelect.addEventListener("change", () => {
   applySelectedMonth(elements.monthSelect.value);
 });
