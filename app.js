@@ -738,6 +738,18 @@ function saveExpensePlan(event) {
   const category = input.dataset.expensePlanCategory;
   const amount = Number(input.value);
   if (!category || !Number.isFinite(amount) || amount < 0) return;
+  const monthPlans = state.expensePlans[state.month] || {};
+  const currentAmount = monthPlans[category] || 0;
+  const plannedTotal = getOperatingExpenseCategories().reduce(
+    (sum, item) => sum + (item === category ? Math.round(amount) : (monthPlans[item] || 0)),
+    0
+  );
+  const lifeBudget = sumByType("income", getSelectedMonthTransactions()) * state.incomeSplit.life / 100;
+  if (plannedTotal > lifeBudget && amount > currentAmount) {
+    showToast(`На жизнь выделено ${money(lifeBudget)}. Уменьшите предполагаемые расходы.`);
+    renderExpensePlan();
+    return;
+  }
   state.expensePlans[state.month] ||= {};
   state.expensePlans[state.month][category] = Math.round(amount);
   saveExpensePlans();

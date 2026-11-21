@@ -96,7 +96,7 @@ try {
     await synchronizePending();
   };
   window.addEventListener("online", synchronizePending);
-  if (remoteAvailable) await synchronizePending();
+  if (remoteAvailable) synchronizePending();
   await import("./app.js");
   const welcomeUrl = new URL(window.location.href);
   if (welcomeUrl.searchParams.has("welcome")) {
