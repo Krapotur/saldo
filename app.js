@@ -23,16 +23,27 @@ const DEFAULT_CATEGORIES = {
 };
 const GOAL_EXPENSE_CATEGORY = "Цели";
 
-function loadIncomeSplit() {
+function isValidIncomeSplit(values) {
+  return values && [values.life, values.savings, values.self].every((value) => Number.isFinite(value) && value >= 0 && value <= 100);
+}
+
+function loadIncomeSplits() {
   try {
     const values = JSON.parse(localStorage.getItem(INCOME_SPLIT_STORAGE_KEY));
-    if (!values || ![values.life, values.savings, values.self].every((value) => Number.isFinite(value) && value >= 0 && value <= 100)) {
-      return { life: 70, savings: 20, self: 10 };
+    if (isValidIncomeSplit(values)) {
+      const migrated = { [getMonthKey(new Date())]: values };
+      localStorage.setItem(INCOME_SPLIT_STORAGE_KEY, JSON.stringify(migrated));
+      return migrated;
     }
-    return values;
+    if (!values || typeof values !== "object" || Array.isArray(values)) return {};
+    return Object.fromEntries(Object.entries(values).filter(([month, split]) => /^\d{4}-\d{2}$/.test(month) && isValidIncomeSplit(split)));
   } catch {
-    return { life: 70, savings: 20, self: 10 };
+    return {};
   }
+}
+
+function getIncomeSplitForMonth(splits, month) {
+  return splits[month] || { life: 70, savings: 20, self: 10 };
 }
 
 function isValidPin(value) {
@@ -69,7 +80,8 @@ const state = {
   savings: loadSavings(),
   debts: loadDebts(),
   expensePlans: loadExpensePlans(),
-  incomeSplit: loadIncomeSplit(),
+  incomeSplits: loadIncomeSplits(),
+  incomeSplit: null,
   debtViewIndex: -1,
   activeGoalId: localStorage.getItem(ACTIVE_GOAL_STORAGE_KEY),
   month: getMonthKey(new Date()),
@@ -87,6 +99,7 @@ const state = {
   pinUnlocked: false,
   localAccount: loadLocalAccount()
 };
+state.incomeSplit = getIncomeSplitForMonth(state.incomeSplits, state.month);
 
 const elements = {
   balance: document.querySelector("#balanceValue"),
@@ -461,6 +474,7 @@ function formatMonth(monthValue) {
 function applySelectedMonth(monthValue) {
   if (!monthValue) return;
   state.month = monthValue;
+  state.incomeSplit = getIncomeSplitForMonth(state.incomeSplits, state.month);
   elements.monthSelect.value = monthValue;
   elements.selectedMonthLabel.textContent = formatMonth(monthValue);
   renderSummary();
@@ -559,7 +573,8 @@ function updateIncomeSplit() {
     const value = Number(input.value);
     state.incomeSplit[key] = Number.isFinite(value) ? Math.min(100, Math.max(0, value)) : 0;
   });
-  localStorage.setItem(INCOME_SPLIT_STORAGE_KEY, JSON.stringify(state.incomeSplit));
+  state.incomeSplits[state.month] = { ...state.incomeSplit };
+  localStorage.setItem(INCOME_SPLIT_STORAGE_KEY, JSON.stringify(state.incomeSplits));
   renderIncomeSplit(sumByType("income", getSelectedMonthTransactions()));
 }
 
