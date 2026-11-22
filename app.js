@@ -135,9 +135,13 @@ const elements = {
   expensePlanDifferenceBar: document.querySelector("#expensePlanDifferenceBar"),
   expensePlanRows: document.querySelector("#expensePlanRows"),
   expensePlanHint: document.querySelector("#expensePlanHint"),
+  expensePlanNotice: document.querySelector("#expensePlanNotice"),
   incomeSplitTotal: document.querySelector("#incomeSplitTotal"),
   incomeSplitNote: document.querySelector("#incomeSplitNote"),
   incomeSplitForecast: document.querySelector("#incomeSplitForecast"),
+  incomeSplitUsedAmount: document.querySelector("#incomeSplitUsedAmount"),
+  incomeSplitInfo: document.querySelector("#incomeSplitInfo"),
+  incomeSplitTooltip: document.querySelector("#incomeSplitTooltip"),
   splitLife: document.querySelector("#splitLife"),
   splitSavings: document.querySelector("#splitSavings"),
   splitSelf: document.querySelector("#splitSelf"),
@@ -507,6 +511,11 @@ function getOperatingExpenseCategories() {
   return state.categories.expense.filter((category) => !isGoalExpenseCategory(category));
 }
 
+function getExpectedExpenseTotal() {
+  const monthPlans = state.expensePlans[state.month] || {};
+  return getOperatingExpenseCategories().reduce((sum, category) => sum + (monthPlans[category] || 0), 0);
+}
+
 function getDateParts(dateString) {
   const date = new Date(`${dateString}T12:00:00`);
   return { date, day: date.toLocaleDateString("ru-RU", { day: "numeric", month: "short" }) };
@@ -553,6 +562,8 @@ function renderIncomeSplit(income) {
   const totalPercent = keys.reduce((sum, key) => sum + state.incomeSplit[key], 0);
   const visible = state.balanceVisible;
   elements.incomeSplitTotal.textContent = `Доход: ${visible ? money(income) : "•••••• ₽"}`;
+  elements.incomeSplitTotal.classList.toggle("zero", visible && income === 0);
+  elements.incomeSplitUsedAmount.textContent = visible ? money(getExpectedExpenseTotal()) : "•••••• ₽";
   inputs.forEach((input, index) => {
     input.value = state.incomeSplit[keys[index]];
     amounts[index].textContent = visible ? money(income * state.incomeSplit[keys[index]] / 100) : "•••••• ₽";
@@ -725,12 +736,14 @@ function renderExpensePlan() {
   }, {});
   const categories = getOperatingExpenseCategories();
   const monthPlans = state.expensePlans[state.month] || {};
-  const expectedTotal = categories.reduce((sum, category) => sum + (monthPlans[category] || 0), 0);
+  const expectedTotal = getExpectedExpenseTotal();
   const actualTotal = Object.values(actualByCategory).reduce((sum, amount) => sum + amount, 0);
   const difference = expectedTotal - actualTotal;
   const scale = Math.max(expectedTotal, actualTotal, 1);
 
+  const lifeBudget = sumByType("income", getSelectedMonthTransactions()) * state.incomeSplit.life / 100;
   elements.expensePlanHint.textContent = `План на ${formatMonth(state.month).toLocaleLowerCase("ru-RU")}`;
+  elements.expensePlanNotice.hidden = lifeBudget !== 0;
   elements.expensePlanExpected.textContent = money(expectedTotal);
   elements.expensePlanActual.textContent = money(actualTotal);
   elements.expensePlanDifference.textContent = `${difference < 0 ? "−" : ""}${money(Math.abs(difference))}`;
@@ -745,6 +758,7 @@ function renderExpensePlan() {
     const difference = expected - actual;
     return `<tr><th scope="row">${escapeHtml(category)}</th><td><input class="expense-plan-input" type="number" min="0" step="1" value="${expected}" data-expense-plan-category="${escapeHtml(category)}" aria-label="Предполагаемые расходы: ${escapeHtml(category)}" /></td><td>${money(actual)}</td><td class="expense-plan-difference ${difference < 0 ? "negative" : ""}">${difference < 0 ? "−" : ""}${money(Math.abs(difference))}</td></tr>`;
   }).join("") || '<tr><td colspan="4" class="expense-plan-empty">Добавьте категории расходов, чтобы составить план.</td></tr>';
+  elements.incomeSplitUsedAmount.textContent = state.balanceVisible ? money(expectedTotal) : "•••••• ₽";
 }
 
 function saveExpensePlan(event) {
@@ -1608,6 +1622,18 @@ function escapeHtml(value) {
 }
 
 elements.openModalButton.addEventListener("click", () => openModal());
+elements.incomeSplitInfo.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  const isExpanded = elements.incomeSplitInfo.getAttribute("aria-expanded") === "true";
+  elements.incomeSplitInfo.setAttribute("aria-expanded", String(!isExpanded));
+  elements.incomeSplitTooltip.hidden = isExpanded;
+});
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".income-split-used")) return;
+  elements.incomeSplitInfo.setAttribute("aria-expanded", "false");
+  elements.incomeSplitTooltip.hidden = true;
+});
 document.querySelector("#lockButton").addEventListener("click", () => {
   if (!state.pin) {
     showToast("Сначала задайте PIN-код в настройках защиты.");

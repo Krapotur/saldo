@@ -320,12 +320,19 @@ body:not(.app-ready) .app-shell { visibility: hidden; }.lock-screen { display: g
 .expense-plan-panel { min-height: 0; margin-top: 16px; }
 .income-split { margin-top: 16px; }
 .income-split-total { color: var(--muted); font: 500 11px var(--mono); }
+.income-split-total.zero { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #f0cf87; border-radius: 9px; background: #fff9e9; color: #775719; }
+.income-split-total.zero::before { display: grid; width: 18px; height: 18px; place-items: center; border-radius: 50%; background: #f2d995; color: #684b11; content: "!"; font: 700 12px var(--sans); }
 .income-split-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
 .income-split-item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 9px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-muted); color: var(--muted); font-size: 11px; }
 .income-split-controls { display: inline-flex; align-items: center; gap: 4px; }
 .income-split-controls input { width: 54px; height: 34px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); text-align: center; font: 500 13px var(--mono); }
 .income-split-controls b { color: var(--ink); font-size: 12px; }
 .income-split-item strong { grid-column: 1 / -1; color: var(--ink); font: 500 16px var(--mono); }
+.income-split-used { position: relative; grid-column: 1 / -1; margin-top: -5px; color: var(--muted); font-size: 10px; }
+.income-split-info { display: inline-grid; width: 16px; height: 16px; margin-left: 4px; padding: 0; place-items: center; border: 1px solid #aab5c4; border-radius: 50%; background: transparent; color: #718096; cursor: pointer; font: 600 10px var(--sans); vertical-align: middle; }
+.income-split-info:hover, .income-split-info:focus-visible { border-color: var(--blue); color: var(--blue); box-shadow: 0 0 0 2px var(--blue-soft); }
+.income-split-tooltip { position: absolute; z-index: 5; bottom: calc(100% + 8px); left: 0; width: min(240px, 75vw); padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 8px 22px rgba(24, 43, 73, 0.14); color: var(--ink); font-size: 11px; line-height: 1.45; }
+.income-split-tooltip[hidden] { display: none; }
 .income-split-item.life { border-top: 3px solid var(--blue); }
 .income-split-item.savings { border-top: 3px solid var(--mint); }
 .income-split-item.self { border-top: 3px solid var(--yellow); }
@@ -334,6 +341,9 @@ body:not(.app-ready) .app-shell { visibility: hidden; }.lock-screen { display: g
 .income-split-forecast { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--mint-soft); color: #176b56; font-size: 11px; line-height: 1.55; }
 .expense-plan-header { align-items: center; }
 .expense-plan-hint { color: var(--muted); font-size: 10px; text-align: right; }
+.expense-plan-notice { display: flex; align-items: center; gap: 10px; margin: 16px 0 0; padding: 12px 14px; border: 1px solid #f0cf87; border-radius: 10px; background: #fff9e9; color: #775719; font-size: 11px; line-height: 1.5; }
+.expense-plan-notice[hidden] { display: none; }
+.expense-plan-notice-icon { display: grid; flex: 0 0 22px; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: #f2d995; color: #684b11; font-size: 14px; font-weight: 700; }
 .expense-plan-overview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
 .expense-plan-overview > div { display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 10px; }
 .expense-plan-overview span { color: var(--muted); font-size: 10px; }

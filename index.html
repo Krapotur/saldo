@@ -340,6 +340,11 @@
               <span>На жизнь</span>
               <span class="income-split-controls"><input id="splitLife" type="number" min="0" max="100" step="1" value="70" inputmode="numeric" aria-label="Процент на жизнь" /><b>%</b></span>
               <strong id="splitLifeAmount">0 ₽</strong>
+              <small class="income-split-used" id="incomeSplitUsed">
+                Использовано: <span id="incomeSplitUsedAmount">0 ₽</span>
+                <button class="income-split-info" id="incomeSplitInfo" type="button" aria-label="Что означает сумма использовано?" aria-expanded="false">i</button>
+                <span class="income-split-tooltip" id="incomeSplitTooltip" role="tooltip" hidden>Сумма из предполагаемых расходов в плане на выбранный месяц.</span>
+              </small>
             </label>
             <label class="income-split-item savings" for="splitSavings">
               <span>Сбережения</span>
@@ -452,6 +457,10 @@
               >План на выбранный месяц</span
             >
           </div>
+          <p class="expense-plan-notice" id="expensePlanNotice" role="status" hidden>
+            <span class="expense-plan-notice-icon" aria-hidden="true">!</span>
+            <span>Добавьте операцию с доходом, чтобы появилась сумма для распределения.</span>
+          </p>
           <div class="expense-plan-overview" aria-label="Сводка расходов">
             <div>
               <span>Предполагаемые</span
